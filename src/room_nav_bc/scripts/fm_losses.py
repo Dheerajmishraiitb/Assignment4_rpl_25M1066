@@ -32,13 +32,13 @@ class FlowMatchingSchedule:
     def interpolate(self, a0, a1, t):
         """a0, a1: (B, *D). t: (B,). -> a_t = (1 - t) a0 + t a1, per sample
         (reshape t so it broadcasts over every action dimension)."""
-        # TODO (Part 3): implement - see the docstring.
-        raise NotImplementedError("TODO (Part 3): FlowMatchingSchedule.interpolate")
+        # reshape t (B,) -> (B, 1, ..., 1) so it broadcasts over action dims
+        t = t.reshape(-1, *([1] * (a0.dim() - 1)))
+        return (1.0 - t) * a0 + t * a1
 
     def target_velocity(self, a0, a1):
         """d a_t / dt along the straight path - independent of t."""
-        # TODO (Part 3): implement - see the docstring.
-        raise NotImplementedError("TODO (Part 3): FlowMatchingSchedule.target_velocity")
+        return a1 - a0
 
 
 def flow_matching_loss(model, schedule, img, odom, a1):
@@ -50,8 +50,11 @@ def flow_matching_loss(model, schedule, img, odom, a1):
     a_t with schedule.interpolate, and return the mean squared error
     between the model's velocity at (a_t, t) and
     schedule.target_velocity(a0, a1)."""
-    # TODO (Part 3): implement - see the docstring.
-    raise NotImplementedError("TODO (Part 3): flow_matching_loss")
+    a0 = torch.randn_like(a1)                              # noise
+    t = schedule.sample_t(a1.shape[0], device=a1.device)   # (B,)
+    a_t = schedule.interpolate(a0, a1, t)
+    pred = model(img, odom, a_t, t)
+    return F.mse_loss(pred, schedule.target_velocity(a0, a1))
 
 
 @torch.no_grad()
@@ -64,8 +67,16 @@ def sample_actions(model, img, odom, act_shape, steps=10, noise=None):
     `steps` equal steps of dt = 1/steps: at step k (k = 0 .. steps-1) the
     time is t = k*dt (a (B,) tensor) and a <- a + dt * model(img, odom, a, t).
     -> the final a, (B, *act_shape)."""
-    # TODO (Part 3): implement - see the docstring.
-    raise NotImplementedError("TODO (Part 3): sample_actions")
+    B = odom.shape[0]
+    if noise is None:
+        a = torch.randn((B, *act_shape), device=odom.device)
+    else:
+        a = noise.clone().to(odom.device)        # never modify the caller's tensor
+    dt = 1.0 / steps
+    for k in range(steps):
+        t = torch.full((B,), k * dt, device=odom.device)
+        a = a + dt * model(img, odom, a, t)
+    return a
 
 
 if __name__ == '__main__':

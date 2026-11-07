@@ -100,8 +100,10 @@ class FlowPolicy(nn.Module):
         action and time_embedding(t, self.t_embed), and map through
         self.head. Like forward(), but with the image already encoded -
         sampling calls this once per integration step."""
-        # TODO (Part 3): implement - see the docstring.
-        raise NotImplementedError("TODO (Part 3): FlowPolicy.velocity")
+        B = a_t.shape[0]
+        h = torch.cat([z_img, odom, a_t.reshape(B, -1),
+                       time_embedding(t, self.t_embed)], dim=1)
+        return self.head(h).view_as(a_t)
 
     def forward(self, img, odom, a_t, t):
         return self.velocity(self.encode(img), odom, a_t, t)
