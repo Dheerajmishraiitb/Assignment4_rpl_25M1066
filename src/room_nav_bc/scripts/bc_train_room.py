@@ -74,8 +74,11 @@ class CNNPolicy(nn.Module):
 
         Encode the image (conv, flatten, img_fc), concatenate the odometry
         features, and map the result through the head."""
-        # TODO (Part 1): implement - see the docstring.
-        raise NotImplementedError("TODO (Part 1): CNNPolicy.forward")
+        z = self.img_fc(self.conv(img).flatten(1))          # (B, img_embed)
+        out = self.head(torch.cat([z, odom], dim=1))         # (B, 2*chunk)
+        if self.chunk > 1:
+            return out.view(-1, self.chunk, 2)
+        return out
 
 
 def to_img_tensor(images_uint8, device):
@@ -123,8 +126,13 @@ def train_step(model, opt, loss_fn, img, odom, target):
     (B,odom_dim) normalised, target: normalised actions, same shape as
     model(img, odom). Clip the gradient norm to 1.0 before stepping.
     -> the minibatch loss as a Python float."""
-    # TODO (Part 1): implement - see the docstring.
-    raise NotImplementedError("TODO (Part 1): train_step")
+    model.train()
+    opt.zero_grad()
+    loss = loss_fn(model(img, odom), target)
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    opt.step()
+    return loss.item()
 
 
 def train(args):

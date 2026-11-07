@@ -75,8 +75,29 @@ def episode_arrays(samples, img_size, use_history):
     bc_policy_node_room.py builds the same 4-dim observation at test time
     (it does not support --history).
     act row = [v, w]."""
-    # TODO (Part 1): implement - see the docstring.
-    raise NotImplementedError("TODO (Part 1): episode_arrays")
+    T = len(samples)
+    images = np.empty((T, img_size, img_size, 3), np.uint8)
+    odom_dim = 6 if use_history else 4
+    odom_obs = np.empty((T, odom_dim), np.float32)
+    act = np.empty((T, 2), np.float32)
+
+    # odometry position is relative to the episode's FIRST sample (the robot
+    # knows nothing else); heading stays the raw odometry yaw, encoded as
+    # sin/cos so it is continuous across +-pi -- exactly what
+    # bc_policy_node_room.py builds at test time.
+    x0, y0 = float(samples[0]['odom_x']), float(samples[0]['odom_y'])
+    prev_v, prev_w = 0.0, 0.0
+    for i, s in enumerate(samples):
+        images[i] = decode_image(s['img_jpeg'], img_size)
+        yaw = float(s['odom_yaw'])
+        row = [float(s['odom_x']) - x0, float(s['odom_y']) - y0,
+               math.sin(yaw), math.cos(yaw)]
+        if use_history:
+            row += [prev_v, prev_w]          # previous command (0 at t=0)
+        odom_obs[i] = row
+        act[i] = (float(s['v']), float(s['w']))
+        prev_v, prev_w = float(s['v']), float(s['w'])
+    return images, odom_obs, act
 
 
 def chunk_actions(act, k):
