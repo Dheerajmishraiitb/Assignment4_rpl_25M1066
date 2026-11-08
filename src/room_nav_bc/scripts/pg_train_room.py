@@ -364,8 +364,51 @@ class PGTrainer(Node):
         tune terms from the command line, add your own flags in
         build_parser() and read them from self.args here.
         """
-        # TODO (Part 4): implement - see the docstring.
-        raise NotImplementedError("TODO (Part 4): PGTrainer.compute_reward")
+        a = self.args
+        st = self.reward_state
+        gx, gy = self.goal['x'], self.goal['y']
+
+        # --- progress measure (a "distance still to go", metres) ------------
+        if a.reward == 'euclid':
+            # Design B: straight-line distance to the goal centre. Simple, but
+            # it points straight through the island.
+            to_go = math.hypot(gx - x, gy - y)
+        else:
+            # Design A: distance along a route AROUND the island. Before the
+            # island's far edge the route goes via a waypoint beside the island
+            # on whichever side the robot is currently on (so both sides score
+            # equally); after it, straight to the goal.
+            isl = self.obstacles['island']
+            far_y = isl['y'] + isl['h'] / 2.0               # 2.1
+            side = 1.0 if x >= 0.0 else -1.0
+            wx = isl['x'] + side * (isl['w'] / 2.0 + a.reward_side_margin)
+            wy = far_y + 0.2
+            if y < wy:
+                to_go = math.hypot(wx - x, wy - y) + math.hypot(gx - wx, gy - wy)
+            else:
+                to_go = math.hypot(gx - x, gy - y)
+
+        prev = st.get('to_go')
+        st['to_go'] = to_go
+        # dense shaping: reward each metre of progress (zero on the first step)
+        r = 0.0 if prev is None else a.reward_progress * (prev - to_go)
+
+        # small per-step cost: finishing sooner is better than dawdling
+        r -= a.reward_step
+
+        # stay away from things before actually hitting them
+        if clearance < a.reward_clear_margin:
+            r -= a.reward_clear * (a.reward_clear_margin - max(clearance, 0.0)) \
+                / a.reward_clear_margin
+
+        # terminal outcomes
+        if outcome == 'reached':
+            r += a.reward_goal
+        elif outcome == 'collided':
+            r -= a.reward_collision
+        elif outcome in ('stalled', 'timeout'):
+            r -= a.reward_stall
+        return float(r)
 
     # -- persistence ------------------------------------------------------
 
@@ -438,7 +481,24 @@ def build_parser():
                    help='tanh-bound the action mean to the robot limits')
     p.add_argument('--obs-norm', choices=['running', 'fixed'], default='fixed',
                    help="'fixed' = identity scaling, 'running' = online mean/std")
-    # TODO (Part 4): add flags for your reward terms here, if you like.
+    # Reward design (see compute_reward and report.md, Part 4).
+    p.add_argument('--reward', choices=['progress', 'euclid'], default='progress',
+                   help="'progress' = progress along a route around the island, "
+                        "'euclid' = straight-line distance to the goal")
+    p.add_argument('--reward-progress', type=float, default=10.0,
+                   help='reward per metre of progress towards the goal')
+    p.add_argument('--reward-step', type=float, default=0.01,
+                   help='cost per control step (10 Hz)')
+    p.add_argument('--reward-clear', type=float, default=0.5,
+                   help='max per-step penalty for being close to an obstacle')
+    p.add_argument('--reward-clear-margin', type=float, default=0.10,
+                   help='clearance [m] below which the proximity penalty starts')
+    p.add_argument('--reward-side-margin', type=float, default=0.35,
+                   help="'progress': lateral offset of the via-point beside the island")
+    p.add_argument('--reward-goal', type=float, default=20.0)
+    p.add_argument('--reward-collision', type=float, default=10.0)
+    p.add_argument('--reward-stall', type=float, default=5.0,
+                   help='penalty for ending by standing still or timing out')
     p.add_argument('--jitter-xy', type=float, default=0.03)
     p.add_argument('--jitter-yaw-deg', type=float, default=10.0)
     p.add_argument('--seed', type=int, default=0)
