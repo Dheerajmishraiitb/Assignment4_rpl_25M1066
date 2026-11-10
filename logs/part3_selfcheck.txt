@@ -1,0 +1,5 @@
+interpolate / target_velocity: OK
+sample_actions: OK
+bimodal toy: OK (98% of samples near +-1, 1% near the mean 0)
+
+all checks passed

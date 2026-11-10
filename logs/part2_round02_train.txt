@@ -1,0 +1,58 @@
+
+device cpu | odom 4 | img 64x64 | chunk 1 | hidden (128, 64) | loss l1
+train 8038 samples, val 1584
+
+ epoch      train        val        lr
+     1    0.42904    0.30584  1.00e-03 *
+     5    0.12275    0.13560  1.00e-03 *
+    10    0.09362    0.11854  1.00e-03 *
+    15    0.07431    0.10824  1.00e-03
+    20    0.06405    0.09396  1.00e-03
+    25    0.06048    0.08879  1.00e-03
+    30    0.05636    0.08015  1.00e-03
+    35    0.05303    0.08237  1.00e-03
+    40    0.04803    0.07326  1.00e-03 *
+    45    0.04802    0.07475  1.00e-03
+    50    0.04478    0.07950  1.00e-03
+    55    0.04155    0.06833  1.00e-03 *
+    60    0.03998    0.06631  1.00e-03 *
+    65    0.03863    0.06579  1.00e-03
+    70    0.03848    0.06577  1.00e-03
+    75    0.03747    0.06646  5.00e-04
+    80    0.03066    0.06384  5.00e-04
+    85    0.02977    0.06247  5.00e-04
+    90    0.02972    0.06190  5.00e-04
+    95    0.02825    0.05800  5.00e-04 *
+   100    0.02845    0.05906  5.00e-04
+   105    0.02877    0.05951  5.00e-04
+   110    0.02511    0.05560  2.50e-04 *
+   115    0.02453    0.05543  2.50e-04 *
+   120    0.02358    0.05742  2.50e-04
+   125    0.02383    0.05669  2.50e-04
+   130    0.02203    0.05669  1.25e-04
+   135    0.02172    0.05526  1.25e-04
+   140    0.02162    0.05555  1.25e-04
+   145    0.02137    0.05559  1.25e-04
+   150    0.02140    0.05530  1.25e-04
+   155    0.02114    0.05621  1.25e-04
+   160    0.02112    0.05557  1.25e-04
+   165    0.02028    0.05497  6.25e-05
+   170    0.02008    0.05523  6.25e-05
+   175    0.01959    0.05512  3.13e-05
+   180    0.01948    0.05520  3.13e-05
+
+stopping early at epoch 181 (30 epochs without improvement)
+
+best val loss   0.05470
+val MAE         v 0.0010 m/s   w 0.0286 rad/s
+                (demonstrated v spread 0.042, w spread 0.338)
+
+loss curve -> figures/training_curve_dagger_r2.png
+
+saved policy_room_dagger_r2.pt
+
+Offline loss is only a health check, more so here than anywhere else in
+this project. Run the policy in the simulator to find out what it actually does
+(bc_policy_node_room.py) - including watching whether it drives into the
+island, which would be the averaging failure mode working as expected.
+

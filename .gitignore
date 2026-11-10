@@ -12,3 +12,7 @@ src/DynamixelSDK/
 src/open_manipulator/
 src/dynamixel_hardware_interface/
 src/dynamixel_interfaces/
+
+# large generated datasets / caches (regenerate with bc_dataset_room.py)
+*.npz
+figures/field_frames.npz

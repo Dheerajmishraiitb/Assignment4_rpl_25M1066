@@ -1,0 +1,45 @@
+
+device cpu | odom 4 | img 64x64 | chunk 1 | hidden (128, 64) | loss l1
+train 5165 samples, val 765
+
+ epoch      train        val        lr
+     1    0.44252    0.43775  1.00e-03 *
+     5    0.13101    0.13652  1.00e-03 *
+    10    0.09714    0.12176  1.00e-03
+    15    0.08158    0.10097  1.00e-03 *
+    20    0.07175    0.10029  1.00e-03
+    25    0.06200    0.09699  1.00e-03
+    30    0.05738    0.09589  1.00e-03
+    35    0.05134    0.09211  1.00e-03
+    40    0.04938    0.09239  1.00e-03
+    45    0.05165    0.09072  1.00e-03
+    50    0.04748    0.08846  1.00e-03
+    55    0.04492    0.08839  5.00e-04
+    60    0.03758    0.08402  5.00e-04
+    65    0.03802    0.08145  5.00e-04 *
+    70    0.03664    0.08407  5.00e-04
+    75    0.03667    0.08198  5.00e-04
+    80    0.03504    0.08271  5.00e-04
+    85    0.03231    0.08186  2.50e-04
+    90    0.03124    0.08127  2.50e-04
+    95    0.03055    0.08251  2.50e-04
+   100    0.02854    0.08138  1.25e-04
+   105    0.02796    0.08108  1.25e-04
+   110    0.02713    0.08073  6.25e-05
+   115    0.02681    0.08100  6.25e-05
+
+stopping early at epoch 116 (30 epochs without improvement)
+
+best val loss   0.08015
+val MAE         v 0.0013 m/s   w 0.0446 rad/s
+                (demonstrated v spread 0.041, w spread 0.346)
+
+loss curve -> figures/training_curve_dagger_r1.png
+
+saved policy_room_dagger_r1.pt
+
+Offline loss is only a health check, more so here than anywhere else in
+this project. Run the policy in the simulator to find out what it actually does
+(bc_policy_node_room.py) - including watching whether it drives into the
+island, which would be the averaging failure mode working as expected.
+

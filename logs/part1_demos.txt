@@ -1,0 +1,18 @@
+
+plan: 4 starts x 2 sides x 1 reps = 8 episodes
+data -> data_room_human/
+
+  [  1/8] start A side=left  ... OK  252 samples, 25.3s -> startA_left_001.p
+  [  2/8] start A side=right ... OK  252 samples, 25.3s -> startA_right_001.p
+  [  3/8] start B side=left  ... OK  259 samples, 26.0s -> startB_left_001.p
+  [  4/8] start B side=right ... OK  258 samples, 25.9s -> startB_right_001.p
+  [  5/8] start C side=left  ... OK  258 samples, 25.9s -> startC_left_001.p
+  [  6/8] start C side=right ... OK  256 samples, 25.7s -> startC_right_001.p
+  [  7/8] start D side=left  ... OK  236 samples, 23.7s -> startD_left_001.p
+  [  8/8] start D side=right ... OK  236 samples, 23.7s -> startD_right_001.p
+
+==========================================================
+ saved 8  failed 0  (of 8 planned)
+==========================================================
+
+saved 8, failed 0

@@ -1,0 +1,16 @@
+
+48 usable episodes from ['data_room_human', 'data_dagger/round_01', 'data_dagger/round_02'] (0 too short)
+   by side: {'?': 40, 'left': 4, 'right': 4}
+   start A: 12 episodes  (10 train, 2 val)  sides={'?': 10, 'right': 1, 'left': 1}
+   start B: 12 episodes  (10 train, 2 val)  sides={'?': 10, 'right': 1, 'left': 1}
+   start C: 12 episodes  (10 train, 2 val)  sides={'?': 10, 'right': 1, 'left': 1}
+   start D: 12 episodes  (10 train, 2 val)  sides={'?': 10, 'right': 1, 'left': 1}
+
+image obs:  64x64x3 uint8
+odom obs:   4 dims (dx, dy, sin, cos)  [relative to each episode's OWN start - no map, no goal constant]
+action:     2 (v, w)
+
+samples:  train 8038   val 1584
+
+wrote dataset_dagger_r2.npz  (118.5 MB)
+

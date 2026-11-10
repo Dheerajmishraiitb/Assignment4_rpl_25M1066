@@ -1,0 +1,90 @@
+
+policy  policy_room_human.pt  (camera + odometry, no map)
+  odom 4  img 64x64  chunk 1
+  val loss 0.09146
+starts  'train'  x 4  x 5 trials
+
+  trial  1  start A (rep 1/5, jittered to x=+0.07 y=+0.37 yaw=+83) ...      [stopped] 252 steps, you drove 77% of them
+OK  [stopped] pos=(+0.00,+3.38)  clearance=+0.076m vs gap_right
+  trial  2  start A (rep 2/5, jittered to x=+0.03 y=+0.40 yaw=+86) ...      [stopped] 254 steps, you drove 81% of them
+OK  [stopped] pos=(+0.00,+3.38)  clearance=+0.076m vs gap_right
+  trial  3  start A (rep 3/5, jittered to x=-0.02 y=+0.38 yaw=+85) ...      [stopped] 251 steps, you drove 80% of them
+OK  [stopped] pos=(+0.00,+3.37)  clearance=+0.076m vs gap_right
+  trial  4  start A (rep 4/5, jittered to x=+0.05 y=+0.34 yaw=+91) ...      [stopped] 262 steps, you drove 69% of them
+OK  [stopped] pos=(+0.00,+3.37)  clearance=+0.076m vs gap_right
+  trial  5  start A (rep 5/5, jittered to x=-0.01 y=+0.48 yaw=+84) ...      [stopped] 243 steps, you drove 82% of them
+OK  [stopped] pos=(+0.00,+3.37)  clearance=+0.076m vs gap_right
+  trial  6  start B (rep 1/5, jittered to x=+0.37 y=+0.41 yaw=+96) ...      [stopped] 258 steps, you drove 78% of them
+OK  [stopped] pos=(+0.00,+3.38)  clearance=+0.076m vs gap_right
+  trial  7  start B (rep 2/5, jittered to x=+0.33 y=+0.42 yaw=+94) ...      [stopped] 256 steps, you drove 79% of them
+OK  [stopped] pos=(+0.00,+3.38)  clearance=+0.076m vs gap_right
+  trial  8  start B (rep 3/5, jittered to x=+0.24 y=+0.36 yaw=+95) ...      [stopped] 257 steps, you drove 73% of them
+OK  [stopped] pos=(+0.00,+3.38)  clearance=+0.076m vs gap_right
+  trial  9  start B (rep 4/5, jittered to x=+0.26 y=+0.45 yaw=+95) ...      [stopped] 251 steps, you drove 76% of them
+OK  [stopped] pos=(+0.00,+3.37)  clearance=+0.076m vs gap_right
+  trial 10  start B (rep 5/5, jittered to x=+0.38 y=+0.37 yaw=+92) ...      [stopped] 260 steps, you drove 69% of them
+OK  [stopped] pos=(+0.00,+3.38)  clearance=+0.076m vs gap_right
+  trial 11  start C (rep 1/5, jittered to x=-0.24 y=+0.39 yaw=+96) ...      [stopped] 254 steps, you drove 81% of them
+OK  [stopped] pos=(-0.00,+3.37)  clearance=+0.076m vs gap_left
+  trial 12  start C (rep 2/5, jittered to x=-0.29 y=+0.46 yaw=+83) ...      [stopped] 251 steps, you drove 77% of them
+OK  [stopped] pos=(-0.00,+3.38)  clearance=+0.076m vs gap_left
+  trial 13  start C (rep 3/5, jittered to x=-0.33 y=+0.44 yaw=+91) ...      [stopped] 252 steps, you drove 76% of them
+OK  [stopped] pos=(-0.00,+3.37)  clearance=+0.076m vs gap_left
+  trial 14  start C (rep 4/5, jittered to x=-0.38 y=+0.45 yaw=+82) ...      [stopped] 260 steps, you drove 81% of them
+OK  [stopped] pos=(-0.00,+3.37)  clearance=+0.076m vs gap_left
+  trial 15  start C (rep 5/5, jittered to x=-0.32 y=+0.44 yaw=+84) ...      [stopped] 256 steps, you drove 75% of them
+OK  [stopped] pos=(-0.00,+3.37)  clearance=+0.076m vs gap_left
+  trial 16  start D (rep 1/5, jittered to x=-0.00 y=+0.67 yaw=+82) ...      [stopped] 230 steps, you drove 83% of them
+OK  [stopped] pos=(+0.00,+3.39)  clearance=+0.076m vs gap_right
+  trial 17  start D (rep 2/5, jittered to x=+0.08 y=+0.64 yaw=+85) ...      [stopped] 236 steps, you drove 87% of them
+OK  [stopped] pos=(+0.00,+3.37)  clearance=+0.076m vs gap_right
+  trial 18  start D (rep 3/5, jittered to x=-0.01 y=+0.57 yaw=+85) ...      [stopped] 238 steps, you drove 74% of them
+OK  [stopped] pos=(+0.00,+3.38)  clearance=+0.076m vs gap_right
+  trial 19  start D (rep 4/5, jittered to x=-0.08 y=+0.53 yaw=+92) ...      [stopped] 242 steps, you drove 85% of them
+OK  [stopped] pos=(-0.00,+3.38)  clearance=+0.076m vs gap_left
+  trial 20  start D (rep 5/5, jittered to x=+0.07 y=+0.66 yaw=+84) ...      [stopped] 233 steps, you drove 87% of them
+OK  [stopped] pos=(+0.00,+3.37)  clearance=+0.076m vs gap_right
+
+==========================================================
+ camera+odometry BC policy: success 20/20  (100%)
+ collided with something: 0/20  (0%)
+
+ per start:
+   A:  5/5 success, 0/5 collided
+   B:  5/5 success, 0/5 collided
+   C:  5/5 success, 0/5 collided
+   D:  5/5 success, 0/5 collided
+
+ outcomes: stopped 20
+
+ closest approach to ANYTHING (island, gap boxes, decor, walls)
+   mean +0.076 m   worst +0.076 m
+==========================================================
+
+
+round 1: saved 20 episodes to data_dagger/round_01
+intervention rate (share of steps you drove): 78.6%
+next: bc_dataset_room.py --human-only, retrain, run the next round
+
+
+==========================================================
+ camera+odometry BC policy: success 20/20  (100%)
+ collided with something: 0/20  (0%)
+
+ per start:
+   A:  5/5 success, 0/5 collided
+   B:  5/5 success, 0/5 collided
+   C:  5/5 success, 0/5 collided
+   D:  5/5 success, 0/5 collided
+
+ outcomes: stopped 20
+
+ closest approach to ANYTHING (island, gap boxes, decor, walls)
+   mean +0.076 m   worst +0.076 m
+==========================================================
+
+
+round 1: saved 20 episodes to data_dagger/round_01
+intervention rate (share of steps you drove): 78.6%
+next: bc_dataset_room.py --human-only, retrain, run the next round
+

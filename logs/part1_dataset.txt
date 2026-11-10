@@ -1,0 +1,22 @@
+
+8 usable episodes from ['data_room_human'] (0 too short)
+   by side: {'left': 4, 'right': 4}
+   start A: 2 episodes  (1 train, 1 val)  sides={'left': 1, 'right': 1}
+   start B: 2 episodes  (1 train, 1 val)  sides={'left': 1, 'right': 1}
+   start C: 2 episodes  (1 train, 1 val)  sides={'left': 1, 'right': 1}
+   start D: 2 episodes  (1 train, 1 val)  sides={'left': 1, 'right': 1}
+
+image obs:  64x64x3 uint8
+odom obs:   4 dims (dx, dy, sin, cos)  [relative to each episode's OWN start - no map, no goal constant]
+action:     2 (v, w)
+
+samples:  train 1002   val 1005
+
+wrote dataset_room_human.npz  (24.7 MB)
+
+NOTE: only 8 episodes. A CNN+odometry policy has a lot more to learn
+      from the same amount of data than the small MLP policies elsewhere in this
+      project did (4-6 input dims vs an image) - if the trained policy drives
+      poorly, more episodes from expert_demo_room.py (it's free, no human needed)
+      is the first thing to try, before assuming the method itself is wrong.
+

@@ -1,0 +1,31 @@
+
+device cpu | odom 4 | img 64x64 | chunk 1 | hidden (128, 64) | flow matching
+train 1002 samples, val 1005
+
+ epoch      train        val  val MAE v  val MAE w
+    10    1.08238    1.26522     0.0129     0.2681 *
+    20    0.84221    0.97006     0.0105     0.1956 *
+    30    0.53576    0.76214     0.0071     0.1412 *
+    40    0.40748    0.64760     0.0048     0.1129 *
+    50    0.35624    0.68006     0.0041     0.0996 *
+    60    0.32696    0.68024     0.0037     0.0844 *
+    70    0.25476    0.67025     0.0032     0.0880
+    80    0.21675    0.65997     0.0032     0.0738 *
+    90    0.21822    0.68782     0.0029     0.0740 *
+   100    0.20192    0.68855     0.0030     0.0720 *
+   110    0.17824    0.64930     0.0023     0.0691 *
+   120    0.18154    0.60738     0.0025     0.0658 *
+   130    0.15777    0.64126     0.0021     0.0640 *
+   140    0.16248    0.64285     0.0025     0.0715
+   150    0.17786    0.67312     0.0021     0.0643 *
+
+kept epoch 150
+val MAE of one sample         v 0.0020 m/s   w 0.0704 rad/s
+                              (demonstrated v spread 0.040, w spread 0.292)
+
+loss curve -> figures/training_curve_room_fm.png
+
+saved policy_room_fm.pt
+
+Run it in the simulator to find out what it actually does (fm_policy_node_room.py).
+
