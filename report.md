@@ -1,7 +1,7 @@
 # Assignment 4 — Report
 
-**Name:** [your name]
-**Roll number:** [your roll number]
+**Name:** Dheeraj Kumar Mishra
+**Roll number:** 25M1066
 
 > **Disclosure.** Code and report were prepared with the help of an AI coding assistant (Claude). The demonstrations (Part 1) and the DAgger corrections (Part 2) were **not driven by hand**. They were produced by the course's scripted expert (`expert_demo_room.py`) through a wrapper, `tools/a4_auto.py`:
 >
